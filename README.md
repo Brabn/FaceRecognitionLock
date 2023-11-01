@@ -12,9 +12,9 @@ If the person matches with a sufficient degree of reliability, a command is sent
 If a face is not recognized or does not match the reference one and prohibitive audio recording is played
 
 ## System installation
-To install system on Raspberry Pi up to date Raspbian system (based on Debian distributive) need to be downloaded from [Official operating system images](https://www.raspberrypi.com/software/operating-systems/)
+To install system on Raspberry Pi up to date Raspbian system (based on Debian distributive) need to be downloaded from [operating system images page](https://www.raspberrypi.com/software/operating-systems/)
 
-After downloading OS image need to be installed on SD card (4 or 8Gb) using Raspberry [Pi Imager](https://www.raspberrypi.com/software/ or using `sudo apt install rpi-imager`) command in Terminal window
+After downloading OS image need to be installed on SD card (4 or 8Gb) using Raspberry [Pi Imager](https://www.raspberrypi.com/software/) or using `sudo apt install rpi-imager` command in Terminal window
 Following commands need to be run on controller after system installation:
 
 ```
