@@ -12,11 +12,13 @@ If the person matches with a sufficient degree of reliability, a command is sent
 If a face is not recognized or does not match the reference one and prohibitive audio recording is played
 
 ## System installation
-To install system on Raspberry Pi up to date Raspbian system (based on Debian distributive) need to be downloaded from https://www.raspberrypi.com/software/operating-systems/ 
-After downloading OS image need to be installed on SD card (4 or 8Gb) using Raspberry Pi Imager from https://www.raspberrypi.com/software/ or using `sudo apt install rpi-imager` command in Terminal window
-Following commands need to be run on controller after system installation 
+To install system on Raspberry Pi up to date Raspbian system (based on Debian distributive) need to be downloaded from [Official operating system images](https://www.raspberrypi.com/software/operating-systems/)
+
+After downloading OS image need to be installed on SD card (4 or 8Gb) using Raspberry [Pi Imager](https://www.raspberrypi.com/software/ or using `sudo apt install rpi-imager`) command in Terminal window
+Following commands need to be run on controller after system installation:
+
 The RPi.GPIO module is installed by default in Raspbian. To make sure that it is at the latest version:
-``$ sudo apt-get update
+```$ sudo apt-get update
 $ sudo apt-get install python-rpi.gpio python3-rpi.gpio
 To install the latest development version from the project source code library:
 $ sudo apt-get install python-dev python3-dev
@@ -33,56 +35,71 @@ wget http://www.cmake.org/files/v3.2/cmake-3.2.2.tar.gz
 tar xf cmake-3.2.2.tar.gz
 cd cmake-3.2.2
 ./configure
-make``
+make```
 All scripts need to be copied in `/home/pi/FaceRecognitionLock/` folder
 Audio samples for system for sound accompaniment need to be uploaded in `/home/pi/FaceRecognitionLock/audio` folder
-•	`SoundError.mp3` – the recording is played if there are problems during system initialization or facenot find in frame from camera (There are no faces in the frame, insufficient lighting or problems with the camera)
-•	`SoundLocked.mp3` – the recording is played if face was recognized but not compare with the correct one
-•	`SoundOpen.mp3`– the recording is played if face was recognized and matches the correct
-•	
+* `SoundError.mp3` – the recording is played if there are problems during system initialization or facenot find in frame from camera (There are no faces in the frame, insufficient lighting or problems with the camera)
+* `SoundLocked.mp3` – the recording is played if face was recognized but not compare with the correct one
+* `SoundOpen.mp3`– the recording is played if face was recognized and matches the correct
+
 ## Libraries and Script list
+
 System based on Raspberry Pi Face Recognition Treasure Box (Copyright 2013 Tony DiCola) and use `OpenCV` and `pygame` for work with images by neural network.
+
 System is using `cv2, glob, os, sys, select, config, face, hardware, RPIO, pygame, subprocess, time` libraries.
+
 Main scripts for system work:
-•	`mainscript.py` – main script which include face recognition and lock opening functions;
-•	`config.py` - system configuration, includes pins and THRESHOLD variables;
-•	`relayON.py` – opening electric lock by applying positive voltage to relay, connected to digital pin;
-•	`relayOFF.py`– closing electric lock by applying negative voltage (connect to ground by pulldown resistor) to relay, connected to digital pin;
-•	`capture-positives.py` - Start capturing “correct” faces. while the script is running, when you press the enter button, the camera will take a photo, detect faces in it and save them for the next training as “correct”;
-•	`train.py` – start training a neural network based on previously taken “correct” face images;
-•	`picam.py` – includes Pi camera device capture class for OpenCV.  This class allows you to capture asingle image from the pi camera as an OpenCV image;
-•	`face.py` – Face Detection Helper Functions to help with the detection and cropping of faces;
-•	`hardware.py` – Includes a `box` class that includes functions for working with connected hardware (camera, button and relay connected to the corresponding Raspberry pins);
+* `mainscript.py` – main script which include face recognition and lock opening functions;
+* `config.py` - system configuration, includes pins and THRESHOLD variables;
+* `relayON.py` – opening electric lock by applying positive voltage to relay, connected to digital pin;
+* `relayOFF.py`– closing electric lock by applying negative voltage (connect to ground by pulldown resistor) to relay, connected to digital pin;
+* `capture-positives.py` - Start capturing “correct” faces. while the script is running, when you press the enter button, the camera will take a photo, detect faces in it and save them for the next training as “correct”;
+* `train.py` – start training a neural network based on previously taken “correct” face images;
+* `picam.py` – includes Pi camera device capture class for OpenCV.  This class allows you to capture asingle image from the pi camera as an OpenCV image;
+* `face.py` – Face Detection Helper Functions to help with the detection and cropping of faces;
+* `hardware.py` – Includes a `box` class that includes functions for working with connected hardware (camera, button and relay connected to the corresponding Raspberry pins);
 
 
 ## System training
 The system works using a trained neural network, so before operation it must be configured (trained) for a specific person.
-To do this, you need to use a set of photographs of a reference face, taken from the same angle and with the same illumination, as shown by the door camera. The larger the set of reference photographs, the better the recognition result. But with a large number (more than 100), recognition begins to take longer due to controller performance limitations. Optimal amount determined during testing is 30-50 photos, which allows recognition within a comfortable 1-2 seconds
+
+To do this, you need to use a set of photographs of a reference face, taken from the same angle and with the same illumination, as shown by the door camera. The larger the set of reference photographs, the better the recognition result. But with a large number (more than 100), recognition begins to take longer due to controller performance limitations. Optimal amount determined during testing is 30-50 photos, which allows recognition within a comfortable 1-2 seconds.
+
 To capture examples of correct photo `/home/pi/FaceRecognitionLock/capture-positives.py` script need to be run. while the script is running, when you press the enter button, the camera will take a photo, detect faces in it and save them for the next training as “correct”.
-The recognition accuracy is separately adjusted by POSITIVE_THRESHOLD constant on which will depend on what maximum difference from the standard is allowed for the system to operate. If the accuracy is too high, the system will only work if there is a complete match, which will require each time to accurately position the face in front of the camera, have the same lighting, facial expression, etc. 
-Lower accuracy will make the system more convenient to use, but will increase the risk of triggering similar faces. If the accuracy is too low, the system can generally work on any person. 
+
+The recognition accuracy is separately adjusted by POSITIVE_THRESHOLD constant on which will depend on what maximum difference from the standard is allowed for the system to operate. If the accuracy is too high, the system will only work if there is a complete match, which will require each time to accurately position the face in front of the camera, have the same lighting, facial expression, etc.
+
+Lower accuracy will make the system more convenient to use, but will increase the risk of triggering similar faces. If the accuracy is too low, the system can generally work on any person.
+
 To change value `/home/pi/FaceRecognitionLock/config.py` script need to be manually edited
-After capturing set of “correct” photos system need to be trained by running `/home/pi/FaceRecognitionLock/train.py`. Training takes a relatively long time - for a set of 50 correct photos, training takes about 15 minutes (due to the limited power of the controller processor)
+After capturing set of “correct” photos system need to be trained by running `/home/pi/FaceRecognitionLock/train.py`. Training takes a relatively long time - for a set of 50 correct photos, training takes about 15 minutes (due to the limited power of the controller processor).
+
 The training result is saved as a set of pgm files in `/home/pi/FaceRecognitionLock/training/` folder.
+
 After completing the training, you need to run the main script `/home/pi/FaceRecognitionLock/mainscript.py`  which will be responsible for starting face recognition by pressing a button
+
 To allow main script automatically run after controller is rebooted, the script is registered as a service `mainscriptserv`
-	sudo service mainscript.py stop
+```sudo service mainscript.py stop
 cd /home/pi/FaceRecognitionLock/
 sudo python mainscript.py
-sudo service mainscriptserv start
+sudo service mainscriptserv start```
 
 ## Main script logic
 Main script `mainscript.py` running after startup as `mainscriptserv` service.
+
 Mainscript initialize standard libraries (include RPIO and pygame)
+
 Pygame initialize and load training data into model. If initialization not succsefull `SoundError.mp3` sound playing
+
 After initialization camera and box class a command is sent to close the lock (if it was open when the system started.) by running `relayOFF.py` script
-After unlock button pressed camera take a photo, convert it into grayscale and seachh for coordinates of visible face. If face can’t be found (there are no faces in the frame, insufficient lighting or problems with the camera) `SoundError.mp3` sound playing. 
-Area where system find face cropped from main image and transfer into trained model to compare with “correct”. 
+
+After unlock button pressed camera take a photo, convert it into grayscale and seachh for coordinates of visible face. If face can’t be found (there are no faces in the frame, insufficient lighting or problems with the camera) `SoundError.mp3` sound playing.
+
+Area where system find face cropped from main image and transfer into trained model to compare with “correct”.
+
 If degree of similarity is insufficient – `SoundLocked.mp3` sound played.
 
 If the degree of similarity is greater than the limit specified by the `POSITIVE_THRESHOLD` variable – `SoundOpen.mp3` sound played and the door opens by running `relayON.py` script. Lock opening for short period (5 seconds by default) after that again you need to recognize the face.
-
-
 
 ## Main system parameters 
 * Main controller		Raspberry Pi Zero W
@@ -116,7 +133,6 @@ If the degree of similarity is greater than the limit specified by the `POSITIVE
 
 
 ## Further development of the system
-- [ ] Adding a training function without using a pre-selected set of photos - using the built-in door camera by command from the remote control
 - [ ] Connecting to smart home functions
 - [ ] Adding video surveillance functions - recording video when trying to open the door or when movement appears in the frame
 - [ ] Increasing complexity of the recognition system using video instead of photos, which will not allow using photographs to deceive the system
