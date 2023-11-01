@@ -135,6 +135,7 @@ If the degree of similarity is greater than the limit specified by the `POSITIVE
 
 ## Wiring diagram
 
+![Components wiring diaram](https://github.com/Brabn/FaceRecognitionLock/blob/main/Wiring_diagram/FaceRecognitionLock.WiringDiagram.jpg)
 
 ## Further development of the system
 - [ ] Connecting to smart home functions
