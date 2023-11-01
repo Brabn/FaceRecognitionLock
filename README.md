@@ -81,15 +81,17 @@ The training result is saved as a set of pgm files in `/home/pi/FaceRecognitionL
 After completing the training, you need to run the main script `/home/pi/FaceRecognitionLock/mainscript.py`  which will be responsible for starting face recognition by pressing a button
 
 To allow main script automatically run after controller is rebooted, the script is registered as a service `mainscriptserv`
-```sudo service mainscript.py stop
+```
+sudo service mainscript.py stop
 cd /home/pi/FaceRecognitionLock/
 sudo python mainscript.py
-sudo service mainscriptserv start```
+sudo service mainscriptserv start
+```
 
 ## Main script logic
 Main script `mainscript.py` running after startup as `mainscriptserv` service.
 
-Mainscript initialize standard libraries (include RPIO and pygame)
+Mainscript initialize standard libraries (include `RPIO` and `pygame`)
 
 Pygame initialize and load training data into model. If initialization not succsefull `SoundError.mp3` sound playing
 
