@@ -17,10 +17,9 @@ To install system on Raspberry Pi up to date Raspbian system (based on Debian di
 After downloading OS image need to be installed on SD card (4 or 8Gb) using Raspberry [Pi Imager](https://www.raspberrypi.com/software/ or using `sudo apt install rpi-imager`) command in Terminal window
 Following commands need to be run on controller after system installation:
 
-The RPi.GPIO module is installed by default in Raspbian. To make sure that it is at the latest version:
-```$ sudo apt-get update
+```
+$ sudo apt-get update
 $ sudo apt-get install python-rpi.gpio python3-rpi.gpio
-To install the latest development version from the project source code library:
 $ sudo apt-get install python-dev python3-dev
 $ sudo apt-get install mercurial
 $ sudo apt-get install python-pip python3-pip
@@ -35,9 +34,12 @@ wget http://www.cmake.org/files/v3.2/cmake-3.2.2.tar.gz
 tar xf cmake-3.2.2.tar.gz
 cd cmake-3.2.2
 ./configure
-make```
+make
+```
 All scripts need to be copied in `/home/pi/FaceRecognitionLock/` folder
+
 Audio samples for system for sound accompaniment need to be uploaded in `/home/pi/FaceRecognitionLock/audio` folder
+
 * `SoundError.mp3` – the recording is played if there are problems during system initialization or facenot find in frame from camera (There are no faces in the frame, insufficient lighting or problems with the camera)
 * `SoundLocked.mp3` – the recording is played if face was recognized but not compare with the correct one
 * `SoundOpen.mp3`– the recording is played if face was recognized and matches the correct
