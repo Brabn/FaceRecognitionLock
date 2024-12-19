@@ -1,5 +1,5 @@
 # Face Recognition Lock
-Door lock with unlocking based on facial recognition results (from the entrance camera)
+[Door lock](https://techi-news.com/Projects/Door-Lock-with-face-recognition-by-neural-network) with unlocking based on facial recognition results (from the entrance camera)
 
 The door is closed with an electric lock, which can be opened using a relay.
 
